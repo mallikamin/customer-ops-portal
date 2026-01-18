@@ -17,22 +17,16 @@ export function useAuthUser() {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u)
       setProfile(null)
-
       if (!u) {
         setLoading(false)
         return
       }
-
       try {
         const ref = doc(db, 'users', u.uid)
         const snap = await getDoc(ref)
-        
         if (snap.exists()) {
           const data = snap.data()
-          setProfile({
-            ...data,
-            role: normalizeRole(data.role)
-          })
+          setProfile({ ...data, role: normalizeRole(data.role) })
         } else {
           const placeholder = { role: 'customer', name: u.email, customerId: null }
           await setDoc(ref, placeholder, { merge: true })
@@ -45,7 +39,6 @@ export function useAuthUser() {
         setLoading(false)
       }
     })
-
     return () => unsub()
   }, [])
 

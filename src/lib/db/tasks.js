@@ -12,7 +12,6 @@ export async function createTask(orderId, data) {
     title: data.title,
     status: 'todo',
     assigneeUid: data.assigneeUid || null,
-    dueDate: data.dueDate || null,
     createdByUid: data.createdByUid,
     createdAt: serverTimestamp(),
   })
